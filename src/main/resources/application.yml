@@ -1,0 +1,4 @@
+spring:
+  profiles:
+    # 包含配置文件
+    active: datasource, rocketmq

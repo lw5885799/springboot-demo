@@ -1,0 +1,4 @@
+rocketmq:
+  name-server: 39.105.164.67:9876
+  producer:
+    group: user-group

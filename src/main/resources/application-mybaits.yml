@@ -1,0 +1,7 @@
+mybatis:
+  # 指定别名设置的包为所有entity
+  type-aliases-package: com.example.domain
+  mapper-locations: # mapper 映射文件位置
+    - classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true # 驼峰命名规范
