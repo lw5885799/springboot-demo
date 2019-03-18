@@ -1,12 +1,11 @@
 package com.example.demo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"id", "password"})
 public class User {
 
     private Integer id;
@@ -14,6 +13,5 @@ public class User {
     private String username;
 
     private String password;
-
 
 }
