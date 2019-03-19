@@ -24,6 +24,10 @@ public class UserLoginTest {
     @Test
     public void loginMethodTest(){
 
-        userService.simpleLogin(new User(5,"myUsername","myPassword"));
+        try {
+            userService.simpleLogin(new User(null,"aa","123"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

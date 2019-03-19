@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author: create by LiWeichen
@@ -29,9 +30,24 @@ public class SimpleController {
         return "index";
     }
 
-    @PostMapping("/login")
-    public String login(User user){
-        userService.simpleLogin(user);
+    @GetMapping("/myHome")
+    public String getMyHomePage(){
         return "myHome";
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public String login(User user){
+
+        if (null == user.getPassword() || null == user.getPassword()){
+            return "error";
+        }
+
+        try {
+//            userService.simpleLogin(user);
+        } catch (Exception e) {
+            return "error";
+        }
+        return "success";
     }
 }

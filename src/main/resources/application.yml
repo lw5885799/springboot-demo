@@ -3,5 +3,10 @@ spring:
     # 包含配置文件
     active: datasource, rocketmq, mybaits, redis
 
+  thymeleaf:
+    cache: false #关闭缓存
+
 server:
   port: 8080
+
+

@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+
 <body>
 <div class="container">
     <!-- 导航 -->
@@ -82,26 +85,62 @@
             </nav>
         </div>
     </div>
-    <!-- 表单 -->
+
     <div class="row clearfix">
         <div class="col-md-7 column">
+
+
         </div>
         <div class="col-md-4 column">
+
+
+            <!-- 表单 -->
             <form role="form">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" />
+                    <label for="exampleUsername">username</label>
+                    <input type="email" class="form-control" id="exampleUsername" name="username" />
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" />
+                    <label for="examplePassword">Password</label>
+                    <input type="password" class="form-control" id="examplePassword" name="password" />
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="button" class="btn btn-default" id="loginSubmit" onclick="sub()">Submit</button>
             </form>
+
+
         </div>
         <div class="col-md-1 column">
         </div>
     </div>
 </div>
+
+<script>
+
+    function sub(){
+        var username = $("#exampleUsername").val()
+        var password = $("#examplePassword").val()
+        $.ajax({
+            url:"[[@{/page/login}]]",
+            type:"post",
+            dataType:"text" ,
+            data:{
+                "username" :username,
+                "password" :password
+            },
+            success:function(data) {
+                alert()
+                if (data == "success"){
+                    window.location.href = "[[@{/page/myHome}]]"
+                } else {
+                    alert("登录失败")
+                }
+            },
+            error: function(req, status, error){
+                alert(1)
+            }
+        })
+    }
+
+</script>
 </body>
 </html>

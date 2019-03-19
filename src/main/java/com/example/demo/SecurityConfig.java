@@ -1,10 +1,11 @@
 package com.example.demo;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import com.example.demo.auth.CustomUserDetailsService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * @author: create by LiWeichen
@@ -12,8 +13,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @description: SpringSecurity 配置类
  * @date:2019-3-13
  */
-@Configuration
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    UserDetailsService customUserService(){
+        return new CustomUserDetailsService();
+    }
+
+
+//    @Bean
+//    public static NoOpPasswordEncoder passwordEncoder() {
+//        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+//    }
+
 
     /**
      * 具体的权限控制规则配置
@@ -22,9 +35,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable(); //禁用csrf防护
+
         http.authorizeRequests()
-                .antMatchers("/page/index", "/rest/*").permitAll();
+                .antMatchers("/","/page/index","/page/login").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/page/index")
+                .failureUrl("/page/index")
+                .defaultSuccessUrl("/page/myHome")
+                .permitAll()
+                .and()
+//                .rememberMe().rememberMeParameter("remember-me") //其实默认就是remember-me，这里可以指定更换
+//                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout")  //退出登录
+                .permitAll()
+                .and()
+                .csrf().disable();
+
     }
 
 }
