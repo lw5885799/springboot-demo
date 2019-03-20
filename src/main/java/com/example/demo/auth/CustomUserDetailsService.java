@@ -2,6 +2,7 @@ package com.example.demo.auth;
 
 import com.example.demo.dao.UserMapper;
 import com.example.demo.domain.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,12 +23,12 @@ import java.util.List;
  * @date:2019-3-19
  */
 @Service
+@Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Resource
     private UserMapper userMapper;
-    @Resource
-    private HttpServletRequest request;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,9 +37,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (null == user){
             throw new UsernameNotFoundException("用户名不存在");
         }
-        HttpSession session = request.getSession();
-        session.setAttribute("user",user);
-        session.setAttribute("sessusername",username);
+        log.info("username:"+user.getUsername()+"  password:"+user.getPassword());
+
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 //        for (Role role:user.getRoles()) {
 //            authorities.add(new SimpleGrantedAuthority(role.getName()));

@@ -1,1 +1,3 @@
-spring.sec
+spring:
+  session:
+    store-type: redis

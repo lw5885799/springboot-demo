@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -93,18 +93,19 @@
         </div>
         <div class="col-md-4 column">
 
-
             <!-- 表单 -->
-            <form role="form">
+            <form role="form" method="post">
+
                 <div class="form-group">
-                    <label for="exampleUsername">username</label>
-                    <input type="email" class="form-control" id="exampleUsername" name="username" />
+                    <label for="username">username</label>
+                    <input type="text" class="form-control" id="username" name="username" />
+
                 </div>
                 <div class="form-group">
-                    <label for="examplePassword">Password</label>
-                    <input type="password" class="form-control" id="examplePassword" name="password" />
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" />
                 </div>
-                <button type="button" class="btn btn-default" id="loginSubmit" onclick="sub()">Submit</button>
+                <button type="submit" class="btn btn-default" id="submit">Submit</button>
             </form>
 
 
@@ -113,34 +114,5 @@
         </div>
     </div>
 </div>
-
-<script>
-
-    function sub(){
-        var username = $("#exampleUsername").val()
-        var password = $("#examplePassword").val()
-        $.ajax({
-            url:"[[@{/page/login}]]",
-            type:"post",
-            dataType:"text" ,
-            data:{
-                "username" :username,
-                "password" :password
-            },
-            success:function(data) {
-                alert()
-                if (data == "success"){
-                    window.location.href = "[[@{/page/myHome}]]"
-                } else {
-                    alert("登录失败")
-                }
-            },
-            error: function(req, status, error){
-                alert(1)
-            }
-        })
-    }
-
-</script>
 </body>
 </html>
