@@ -2,7 +2,9 @@ package com.example.demo.auth;
 
 import com.example.demo.dao.UserMapper;
 import com.example.demo.domain.User;
+import com.example.demo.domain.UserLoginEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +30,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
 
 
     @Override
@@ -40,10 +44,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("username:"+user.getUsername()+"  password:"+user.getPassword());
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        for (Role role:user.getRoles()) {
-//            authorities.add(new SimpleGrantedAuthority(role.getName()));
-//        }
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        try {
+            //用户登录行为记录事件
+            rocketMQTemplate.convertAndSend("user-topic-1",
+                    UserLoginEvent.init(user));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e.getStackTrace());
+        }
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
 
     }

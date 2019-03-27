@@ -1,18 +1,18 @@
 package com.example.demo.web;
 
-import com.example.demo.domain.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author: create by LiWeichen
  * @version: v1.0
- * @description: com.example.demo.web
+ * @description:
  * @date:2019-3-13
  */
 @Controller
@@ -39,11 +39,11 @@ public class SimpleController {
         return "myHome";
     }
 
-    @GetMapping("/login")
+    @GetMapping(value = "/login", consumes = MediaType.ALL_VALUE)
     public String login(){
-        System.out.println("a");
         return "myHome";
     }
+
     @GetMapping("/user")
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_USER')")

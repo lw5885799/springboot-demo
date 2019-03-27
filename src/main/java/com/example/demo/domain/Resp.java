@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @author: create by LiWeichen
  * @version: v1.0
- * @description:
+ * @description: response 返回信息封装
  * @date:2019-3-20
  */
 @Data

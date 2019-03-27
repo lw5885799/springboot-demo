@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -75,18 +76,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 //设置允许匿名登录路径
-                    .antMatchers("/").permitAll()
+                    .antMatchers("/rest/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
                 // 登录相关设置
                 .formLogin()
                     .loginPage("/page/index")
+                    .loginProcessingUrl("/page/login")
                     .successHandler(customAuthenticationSuccessHandler)
                     .failureHandler(customAuthenticationFailureHandler)
                     .permitAll()
                 .and()
                 //session管理，注入redis
                 .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .invalidSessionUrl("/page/invalid")
                     .maximumSessions(1)
                     .sessionRegistry(sessionRegistry())

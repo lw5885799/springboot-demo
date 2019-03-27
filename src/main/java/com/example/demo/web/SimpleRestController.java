@@ -1,10 +1,12 @@
 package com.example.demo.web;
 
+import com.example.demo.domain.Resp;
 import com.example.demo.domain.User;
+import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class SimpleRestController {
 
+    @Resource
+    private UserService userService;
 
     /**
      * 第一种风格mapping写法
@@ -25,9 +29,10 @@ public class SimpleRestController {
      * @return
      */
     @RequestMapping(value = "/getTest1/{id}", method = RequestMethod.GET)
-    public String testGet(@PathVariable Integer id){
+    public Resp testGet(@PathVariable Integer id){
         System.out.println("读取id为：" + id);
-        return "success";
+        this.userService.printTest();
+        return Resp.success("获取成功");
     }
 
     /**
@@ -52,4 +57,6 @@ public class SimpleRestController {
         System.out.println("读取id, name为: " + user.getUsername() + "," + user.getPassword());
         return "success";
     }
+
+
 }
